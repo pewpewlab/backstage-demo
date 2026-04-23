@@ -20,7 +20,7 @@ services:
       retries: 10
 
   backstage:
-    image: pewpewlab/backstage:local        # built from packages/backend/Dockerfile
+    image: pewpewtron/backstage:local        # built from packages/backend/Dockerfile
     container_name: backstage
     restart: unless-stopped
     depends_on:
@@ -36,9 +36,12 @@ services:
       POSTGRES_PASSWORD: backstage
       # Optional — set your GitHub token for catalog integrations
       # GITHUB_TOKEN: your_token_here
-    # The CMD in the Dockerfile already loads both app-config files.
-    # Override here if you want dev-only config (sqlite, no production overrides):
-    #   command: ["node", "packages/backend", "--config", "app-config.yaml"]
+      NODE_ENV: development
+    volumes:
+      # Config files are mounted read-only at runtime; they are never baked into the image.
+      # Keep these files in the repo as reference/dev; never commit secrets into them.
+      - ./app-config.yaml:/app/app-config.yaml:ro
+      - ./app-config.production.yaml:/app/app-config.production.yaml:ro
 
 volumes:
   backstage_pg_data:

@@ -112,9 +112,6 @@ RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid
 # Copy the built packages from the build stage
 COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
 
-# Copy any other files that we need at runtime
-COPY --chown=node:node app-config*.yaml ./
-
 # This will include the examples, if you don't need these simply remove this line
 COPY --chown=node:node examples ./examples
 
@@ -124,4 +121,22 @@ ENV NODE_ENV=production
 # This disables node snapshot for Node 20 to work with the Scaffolder
 ENV NODE_OPTIONS="--no-node-snapshot"
 
+# Config files are NOT baked into this image.
+# They must be supplied at runtime via a bind-mount or Kubernetes ConfigMap/Secret.
+#
+# Docker Compose example:
+#   volumes:
+#     - ./app-config.yaml:/app/app-config.yaml:ro
+#     - ./app-config.production.yaml:/app/app-config.production.yaml:ro
+#
+# Kubernetes example (mount a ConfigMap + Secret as files):
+#   volumeMounts:
+#     - name: backstage-config
+#       mountPath: /app/app-config.yaml
+#       subPath: app-config.yaml
+#       readOnly: true
+#     - name: backstage-config-prod
+#       mountPath: /app/app-config.production.yaml
+#       subPath: app-config.production.yaml
+#       readOnly: true
 CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml"]
