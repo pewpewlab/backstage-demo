@@ -29,8 +29,20 @@ backend:
       #     $file: <file-path>/ca/server.crt
 
 auth:
+  session:
+    secret: ${AUTH_SESSION_SECRET}
   providers:
     guest: {}
+    github:
+      production:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    gitlab:
+      production:
+        clientId: ${AUTH_GITLAB_CLIENT_ID}
+        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+        # For self-hosted GitLab:
+        # audience: https://gitlab.example.com
 
 catalog:
   # Overrides the default list locations from app-config.yaml as these contain example data.

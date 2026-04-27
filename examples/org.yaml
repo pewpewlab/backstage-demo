@@ -12,6 +12,35 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: guests
+  description: Guest users with read-only access
+spec:
+  type: team
+  children: []
+---
+# Admins group – members have full access (create, update, delete) in Backstage.
+# Add GitHub/GitLab usernames of your admin users to the members list below.
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: admins
+  description: Backstage administrators with full access
+spec:
+  type: team
+  children: []
+  members:
+    # Add admin usernames here (GitHub/GitLab login handle, lowercase):
+    # - alice
+    # - bob
+---
+# Viewers group – members have read-only access to the catalog.
+# By default, authenticated users who are not in "admins" have the same
+# read-only permissions, so this group is optional but available for
+# explicit assignment.
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: viewers
+  description: Read-only access to the Backstage catalog
 spec:
   type: team
   children: []

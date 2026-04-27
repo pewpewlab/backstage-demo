@@ -27,7 +27,12 @@ backend.add(import('@backstage/plugin-techdocs-backend'));
 backend.add(import('@backstage/plugin-auth-backend'));
 // See https://backstage.io/docs/backend-system/building-backends/migrating#the-auth-plugin
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
-// See https://backstage.io/docs/auth/guest/provider
+// GitHub OAuth provider – configure via auth.providers.github in app-config.yaml
+backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+// GitLab OAuth provider – configure via auth.providers.gitlab in app-config.yaml
+backend.add(
+  import('@backstage/plugin-auth-backend-module-gitlab-provider'),
+);
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));
@@ -40,9 +45,10 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 
 // permission plugin
 backend.add(import('@backstage/plugin-permission-backend'));
-// See https://backstage.io/docs/permissions/getting-started for how to create your own permission policy
+// Custom RBAC policy – grants admins full access and limits everyone else to read-only.
+// See packages/backend/src/permissions/policy.ts for the policy implementation.
 backend.add(
-  import('@backstage/plugin-permission-backend-module-allow-all-policy'),
+  import('./permissions/module').then(m => m.permissionModuleRbacPolicy),
 );
 
 // search plugin

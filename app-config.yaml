@@ -17,6 +17,14 @@ app:
         config:
           path: /
 
+    # Sign-in page: allow users to sign in with GitHub, GitLab, or as Guest
+    - sign-in-page:
+        config:
+          providers:
+            - id: github
+            - id: gitlab
+            - id: guest
+
 organization:
   name: My Company - Development Platform
 
@@ -85,9 +93,39 @@ techdocs:
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
+  # A session secret is required when using OAuth-based providers.
+  # Set AUTH_SESSION_SECRET in your environment (minimum 24 characters).
+  session:
+    secret: ${AUTH_SESSION_SECRET}
   providers:
     # See https://backstage.io/docs/auth/guest/provider
     guest: {}
+
+    # GitHub OAuth – create an OAuth App at https://github.com/settings/developers
+    # Set the Authorization callback URL to:
+    #   http://localhost:7007/api/auth/github/handler/frame
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+        # Optional: uncomment to restrict sign-in to members of a specific GitHub org:
+        # signIn:
+        #   resolvers:
+        #     - resolver: usernameMatchingUserEntityName
+        # To restrict sign-in to a GitHub org use allowedOrganizations (not enterpriseInstanceUrl):
+        # allowedOrganizations: [my-org]
+
+    # GitLab OAuth – create an Application at https://gitlab.com/-/profile/applications
+    # Set the Redirect URI to:
+    #   http://localhost:7007/api/auth/gitlab/handler/frame
+    # Required scopes: read_user, openid, profile, email
+    gitlab:
+      development:
+        clientId: ${AUTH_GITLAB_CLIENT_ID}
+        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+        # For self-hosted GitLab, uncomment and set your instance URL:
+        # audience: https://gitlab.example.com
+
   # see https://backstage.io/docs/ai/mcp-actions#client-id-metadata-documents
   # to learn more about client id metadata documents
   experimentalClientIdMetadataDocuments:
