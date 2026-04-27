@@ -103,7 +103,7 @@ RBAC is implemented via a custom `PermissionPolicy` in `packages/backend/src/per
 | Role | Catalog group | Permissions |
 |---|---|---|
 | **Admin** | `group:default/admins` | Full access: read, create, refresh, delete |
-| **Viewer** (default) | everyone else | Read-only: catalog reads are filtered to entities they own; mutations denied |
+| **Viewer** (default) | everyone else | Read access to all catalog entities; catalog mutations (create location, delete entity/location, refresh) are denied |
 
 The policy is registered as a backend module in `packages/backend/src/permissions/module.ts` and wired into `packages/backend/src/index.ts`, replacing the default allow-all policy.
 
