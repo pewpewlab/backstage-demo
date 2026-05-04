@@ -17,13 +17,12 @@ app:
         config:
           path: /
 
-    # Sign-in page: allow users to sign in with GitHub, GitLab, or as Guest
+    # Sign-in page: allow users to sign in with GitHub or GitLab
     - sign-in-page:
         config:
           providers:
             - id: github
             - id: gitlab
-            - id: guest
 
 organization:
   name: My Company - Development Platform
@@ -98,9 +97,6 @@ auth:
   session:
     secret: ${AUTH_SESSION_SECRET}
   providers:
-    # See https://backstage.io/docs/auth/guest/provider
-    guest: {}
-
     # GitHub OAuth – create an OAuth App at https://github.com/settings/developers
     # Set the Authorization callback URL to:
     #   http://localhost:7007/api/auth/github/handler/frame
