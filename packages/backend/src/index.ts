@@ -47,9 +47,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 backend.add(import('@backstage/plugin-permission-backend'));
 // Custom RBAC policy – grants admins full access and limits everyone else to read-only.
 // See packages/backend/src/permissions/policy.ts for the policy implementation.
-backend.add(
-  import('./permissions/module').then(m => m.permissionModuleRbacPolicy),
-);
+backend.add(import('./permissions/module'));
 
 // search plugin
 backend.add(import('@backstage/plugin-search-backend'));

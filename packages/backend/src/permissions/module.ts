@@ -1,5 +1,5 @@
 import { createBackendModule } from '@backstage/backend-plugin-api';
-import { policyExtensionPoint } from '@backstage/plugin-permission-node';
+import { policyExtensionPoint } from '@backstage/plugin-permission-node/alpha';
 import { RbacPermissionPolicy } from './policy';
 
 /**
@@ -8,7 +8,7 @@ import { RbacPermissionPolicy } from './policy';
  * Add this module to the backend in place of
  * `@backstage/plugin-permission-backend-module-allow-all-policy`.
  */
-export const permissionModuleRbacPolicy = createBackendModule({
+const permissionModuleRbacPolicy = createBackendModule({
   pluginId: 'permission',
   moduleId: 'rbac-policy',
   register(reg) {
@@ -20,3 +20,5 @@ export const permissionModuleRbacPolicy = createBackendModule({
     });
   },
 });
+
+export default permissionModuleRbacPolicy;
