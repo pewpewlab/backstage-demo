@@ -1,6 +1,8 @@
 app:
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
   baseUrl: http://localhost:7007
+  listen:
+    host: 0.0.0.0
 
 backend:
   # Note that the baseUrl should be the URL that the browser and other clients
@@ -29,8 +31,27 @@ backend:
       #     $file: <file-path>/ca/server.crt
 
 auth:
+  environment: development
   providers:
-    guest: {}
+    gitlab:
+      development:
+        clientId: ${GITLAB_CLIENT_ID}
+        clientSecret: ${GITLAB_CLIENT_SECRET}
+        ## uncomment if using self-hosted GitLab
+        # audience: https://gitlab.company.com
+        ## uncomment if using a custom redirect URI
+        # callbackUrl: https://${BASE_URL}/api/auth/gitlab/handler/frame
+        ## uncomment to set lifespan of user session
+        # sessionDuration: { hours: 24 } # supports `ms` library format (e.g. '24h', '2 days'), ISO duration, "human duration" as used in code
+        signIn:
+          resolvers:
+            # See https://backstage.io/docs/auth/gitlab/provider#resolvers for more resolvers
+            - resolver: usernameMatchingUserEntityName
+
+integrations:
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
 
 catalog:
   # Overrides the default list locations from app-config.yaml as these contain example data.
@@ -53,3 +74,19 @@ catalog:
       target: ./examples/org.yaml
       rules:
         - allow: [User, Group]
+  providers:
+    gitlab:
+      yourProviderId:
+        host: gitlab.com
+        orgEnabled: true
+        group: pewpewlab              # Required for gitlab.com - the root group path
+        restrictUsersToGroup: true   # Only sync users that are members of the specified group
+        includeUsersWithoutSeat: true  # Free GitLab.com groups: all members have is_using_seat=false
+        relations:                    # Optional: control group membership inheritance
+          - INHERITED               # Members of parent groups included in subgroups
+          - DESCENDANTS             # Members of subgroups included in parent groups
+          - SHARED_FROM_GROUPS      # Members of invited groups included
+        schedule:
+          frequency: { minutes: 30 }
+          timeout: { minutes: 3 }
+          initialDelay: { seconds: 5 }
