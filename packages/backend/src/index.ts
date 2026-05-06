@@ -67,4 +67,10 @@ backend.add(import('@backstage/plugin-signals-backend'));
 // mcp actions plugin
 backend.add(import('@backstage/plugin-mcp-actions-backend'));
 
+//Gitlab module Org Data Source plugin
+backend.add(import('@backstage/plugin-catalog-backend-module-gitlab-org'));
+// Optional: For real-time updates via webhooks
+// backend.add(import('@backstage/plugin-events-backend'));
+// backend.add(import('@backstage/plugin-events-backend-module-gitlab'));
+
 backend.start();
