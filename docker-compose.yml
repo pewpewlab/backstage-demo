@@ -27,7 +27,7 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - '7007:7007'
+      - '6006:7007'
     env_file:
       - .env                          # injects GITLAB_TOKEN, GITLAB_CLIENT_ID, GITLAB_CLIENT_SECRET, etc. as real env vars
     environment:
