@@ -1,5 +1,5 @@
 app:
-  title: Scaffolded Backstage App
+  title: Scaffolded Backstage App - Development
   baseUrl: http://localhost:3000
 
   # Enable all packages by default, this will discover packages from packages/app/package.json
@@ -18,7 +18,7 @@ app:
           path: /
 
 organization:
-  name: My Company
+  name: My Company - Development Platform
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
@@ -63,6 +63,7 @@ integrations:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
+  # gitlab:
 
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
@@ -109,7 +110,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Resource, Location, User, Group]
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file

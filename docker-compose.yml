@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: backstage-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: backstage
+      POSTGRES_PASSWORD: backstage
+      POSTGRES_DB: backstage
+    ports:
+      - '5432:5432'
+    volumes:
+      - backstage_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U backstage']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backstage:
+    image: pewpewtron/backstage:copilot        # built from packages/backend/Dockerfile
+    container_name: backstage
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '7007:7007'
+    env_file:
+      - .env                          # injects GITLAB_TOKEN, GITLAB_CLIENT_ID, GITLAB_CLIENT_SECRET, etc. as real env vars
+    environment:
+      # PostgreSQL connection — "postgres" is the service name above, Docker DNS resolves it
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: backstage
+      POSTGRES_PASSWORD: backstage
+      # Optional — set your GitHub token for catalog integrations
+      # GITHUB_TOKEN: your_token_here
+      NODE_ENV: development
+    volumes:
+      # Config files are mounted read-only at runtime; they are never baked into the image.
+      # Keep these files in the repo as reference/dev; never commit secrets into them.
+      - ./app-config.yaml:/app/app-config.yaml:ro
+      - ./app-config.production.yaml:/app/app-config.production.yaml:ro
+
+volumes:
+  backstage_pg_data:
