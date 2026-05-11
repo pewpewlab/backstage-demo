@@ -47,6 +47,13 @@ auth:
           resolvers:
             # See https://backstage.io/docs/auth/gitlab/provider#resolvers for more resolvers
             - resolver: usernameMatchingUserEntityName
+    github:
+      development:
+        clientId: "${GITHUB_CLIENT_ID}"
+        clientSecret: "${GITHUB_CLIENT_SECRET}"
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
 
 integrations:
   gitlab:
