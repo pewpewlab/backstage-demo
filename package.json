@@ -50,7 +50,17 @@
   },
   "resolutions": {
     "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react-dom": "^18",
+    "@octokit/plugin-paginate-rest": "11.4.4-cjs.2",
+    "@octokit/request": "8.4.1",
+    "@octokit/request-error": "5.1.1",
+    "fast-xml-parser": "5.7.3",
+    "file-type": "21.3.4",
+    "ip-address": "10.2.0",
+    "koa": "3.1.2",
+    "prismjs": "1.30.0",
+    "tar": "7.5.15",
+    "undici": "7.25.0"
   },
   "prettier": "@backstage/cli/config/prettier",
   "lint-staged": {
