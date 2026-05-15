@@ -20,14 +20,16 @@ services:
       retries: 10
 
   backstage:
-    image: pewpewtron/backstage:local        # built from packages/backend/Dockerfile
+    image: pewpewtron/backstage:copilot        # built from packages/backend/Dockerfile
     container_name: backstage
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     ports:
-      - '7007:7007'
+      - '6006:7007'
+    env_file:
+      - .env                          # injects GITLAB_TOKEN, GITLAB_CLIENT_ID, GITLAB_CLIENT_SECRET, etc. as real env vars
     environment:
       # PostgreSQL connection — "postgres" is the service name above, Docker DNS resolves it
       POSTGRES_HOST: postgres

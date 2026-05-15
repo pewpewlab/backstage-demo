@@ -25,8 +25,9 @@ backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
+backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 // See https://backstage.io/docs/backend-system/building-backends/migrating#the-auth-plugin
-backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+// backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 // See https://backstage.io/docs/auth/guest/provider
 
 // catalog plugin
@@ -65,5 +66,11 @@ backend.add(import('@backstage/plugin-signals-backend'));
 
 // mcp actions plugin
 backend.add(import('@backstage/plugin-mcp-actions-backend'));
+
+//Gitlab module Org Data Source plugin
+backend.add(import('@backstage/plugin-catalog-backend-module-gitlab-org'));
+// Optional: For real-time updates via webhooks
+// backend.add(import('@backstage/plugin-events-backend'));
+// backend.add(import('@backstage/plugin-events-backend-module-gitlab'));
 
 backend.start();
